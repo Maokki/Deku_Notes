@@ -182,6 +182,6 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   bottomSpacing: {
-    height: 80,
+    height: 20,
   },
 })

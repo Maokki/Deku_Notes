@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
   body: {
     flex: 1,
     padding: 16,
-    paddingBottom: 80,
+    paddingBottom: 16,
   },
   loadingContainer: {
     justifyContent: 'center',
