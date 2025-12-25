@@ -1,6 +1,7 @@
-import { StyleSheet, View, Text, Alert, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
-import { Ionicons } from '@expo/vector-icons'
+// app/(tabs)/notes.jsx
+import { StyleSheet, View, Text, Alert } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { useNavigation } from '@react-navigation/native'
 
 // Components
 import Sidebar from '../../components/Sidebar'
@@ -24,6 +25,9 @@ import { useSearch } from '../../hooks/useSearch'
 import { exportData, processImportData, validateImportData } from '../../utils/dataManager'
 
 const Notes = () => {
+  // navigation hook
+  const navigation = useNavigation()
+  
   // Custom hooks
   const {
     categories,
@@ -78,6 +82,34 @@ const Notes = () => {
   const [exportImportModalVisible, setExportImportModalVisible] = useState(false)
   const [flashcardModalVisible, setFlashcardModalVisible] = useState(false)
 
+  // listen for tab press events to ALWAYS toggle sidebar
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('tabPress', (e) => {
+      toggleSidebar()
+    })
+
+    return unsubscribe
+  }, [navigation, toggleSidebar])
+
+  // header title based on selected category
+  useEffect(() => {
+    const itemCount = selectedCategory ? filteredAndSortedItems.length : 0;
+    const tagSuffix = selectedTag ? ` - ${selectedTag}` : '';
+    
+    navigation.setOptions({
+      headerTitle: () => (
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#333' }}>
+            {selectedCategory?.name || 'Notes'}
+          </Text>
+          <Text style={{ fontSize: 16, color: '#666', left: 6 }}>
+            ({itemCount}つ){tagSuffix}
+          </Text>
+        </View>
+      ),
+    })
+  }, [selectedCategory, navigation, filteredAndSortedItems.length, selectedTag])
+
   // Handlers
   const handleAddCategory = () => {
     addCategory(newCategoryName)
@@ -86,8 +118,8 @@ const Notes = () => {
 
   const handleSelectCategory = (category) => {
     setSelectedCategory(category)
-    setSelectedTag(null) // Clear tag filter when switching categories
-    clearSearch() // Clear search when switching categories
+    setSelectedTag(null)
+    clearSearch()
     closeSidebar()
   }
 
@@ -109,8 +141,26 @@ const Notes = () => {
   }
 
   const handleDeleteItem = (itemId) => {
-    deleteItem(itemId)
-    setExpandedIndex(null)
+    Alert.alert(
+      'Delete Item',
+      'Are you sure you want to delete this item?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+          onPress: () => setExpandedIndex(null)
+        },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => {
+            deleteItem(itemId)
+            setExpandedIndex(null)
+          }
+        }
+      ],
+      { cancelable: true }
+    )
   }
 
   const handleSortChange = (sortOrder) => {
@@ -195,13 +245,6 @@ const Notes = () => {
         />
       </View>
 
-      <TouchableOpacity
-        style={styles.menuButton}
-        onPress={toggleSidebar}
-      >
-        <Ionicons name="menu" size={24} color="#4CAF50" />
-      </TouchableOpacity>
-
       <Sidebar
         slideAnim={slideAnim}
         onClose={closeSidebar}
@@ -279,19 +322,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 16,
     marginBottom: 8,
-  },
-  menuButton: {
-    position: 'absolute',
-    top: 16,
-    left: 16,
-    zIndex: 99,
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    padding: 8,
-    elevation: 4,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
   },
 })

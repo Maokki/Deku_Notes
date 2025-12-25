@@ -1,3 +1,4 @@
+// app/(tabs)/_layout.jsx
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -8,7 +9,8 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        headerShown: false,
+        headerShown: true,
+        titleshown: false,
         tabBarActiveTintColor: '#4CAF50',
         tabBarInactiveTintColor: '#999',
         tabBarStyle: {
@@ -17,17 +19,24 @@ export default function TabLayout() {
           borderTopColor: '#e0e0e0',
           height: 60 + insets.bottom,
           paddingBottom: insets.bottom + 8,
-          paddingTop: 8,
+          paddingTop: 5,
         },
         tabBarLabelStyle: {
-          fontSize: 12,
+          fontSize: 10,
           fontWeight: '600',
+        },
+        headerStyle: {
+          height: 70,
+        },
+        headerTitleStyle: {
+          fontSize: 20,
         },
       }}>
       <Tabs.Screen
         name="index"
         options={{
           title: 'Dashboard',
+          headerTitle: ' ',
           tabBarIcon: ({ size, color }) => (
             <Ionicons name="grid-outline" size={size} color={color} />
           ),
@@ -37,8 +46,9 @@ export default function TabLayout() {
         name="notes"
         options={{
           title: 'Notes',
+          headerTitle: ' ',
           tabBarIcon: ({ size, color }) => (
-            <Ionicons name="document-text-outline" size={size} color={color} />
+            <Ionicons name="document-text-outline" size={size} color={color}/>
           ),
         }}
       />
