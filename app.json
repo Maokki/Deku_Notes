@@ -1,29 +1,48 @@
 {
   "expo": {
+    "scheme": "maomao-notes",
     "name": "MaoMao-Notes",
     "slug": "MaoMao-Notes",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/maomao_icon-192.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
+      "image": "./assets/maomao_icon-300.png",
+      "resizeMode": "native",
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "UIStatusBarHidden": true,
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "bundleIdentifier": "com.nagiiiqt.MaoMaoNotes"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/maomao_icon-192.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "statusBar": {
+        "hidden": true
+      },
+      "package": "com.nagiiiqt.MaoMaoNotes"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/maomao_icon-192.png"
+    },
+    "plugins": [
+      "expo-router"
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "2bdbdb75-e635-4abd-9c3d-7323b1a4d8e2"
+      }
     }
   }
 }
