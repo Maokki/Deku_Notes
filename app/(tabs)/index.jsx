@@ -3,14 +3,14 @@ import React, { useState, useCallback } from 'react'
 import { Ionicons } from '@expo/vector-icons'
 
 // Components
-import StatisticsCard from '../components/dashboard/StatisticsCard'
-import ItemOfTheDay from '../components/dashboard/ItemOfTheDay'
-import CategoryPreview from '../components/dashboard/CategoryPreview'
+import StatisticsCard from '../../components/dashboard/StatisticsCard'
+import ItemOfTheDay from '../../components/dashboard/ItemOfTheDay'
+import CategoryPreview from '../../components/dashboard/CategoryPreview'
 
 
 // Hooks
-import { useCategories } from '../hooks/useCategories'
-import { useDashboardStats } from '../hooks/useDashboardStats'
+import { useCategories } from '../../hooks/useCategories'
+import { useDashboardStats } from '../../hooks/useDashboardStats'
 
 const Dashboard = () => {
   const [refreshing, setRefreshing] = useState(false)
@@ -182,6 +182,6 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   bottomSpacing: {
-    height: 20,
+    height: 80,
   },
 })

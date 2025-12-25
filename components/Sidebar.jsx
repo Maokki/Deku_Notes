@@ -99,12 +99,13 @@ export default Sidebar
 const styles = StyleSheet.create({
   sidebar: {
     position: "absolute",
-    top: 10,
+    top: 0,
     left: 0,
     width: 250,
     height: "100%",
     backgroundColor: "#333",
     padding: 16,
+    paddingTop: 24,
     zIndex: 100,
   },
   topRow: {

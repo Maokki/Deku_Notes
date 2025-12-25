@@ -1,29 +1,27 @@
-// app/notes.jsx
-import { StyleSheet, View, Text, Alert } from 'react-native'
+import { StyleSheet, View, Text, Alert, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
+import { Ionicons } from '@expo/vector-icons'
 
 // Components
-import Sidebar from '../components/Sidebar'
-import AddItemButton from '../components/AddItemButton'
-import ItemList from '../components/ItemList'
-import ItemModal from '../components/ItemModal'
-import SearchBar from '../components/SearchBar'
-import SortButton from '../components/SortButton'
-import TagsDropdown from '../components/TagsDropdown'
-import ExportImportModal from '../components/ExportImportModal'
-import FlashcardModal from '../components/FlashcardModal'
-import FlashcardButton from '../components/FlashcardButton'
+import Sidebar from '../../components/Sidebar'
+import AddItemButton from '../../components/AddItemButton'
+import ItemList from '../../components/ItemList'
+import ItemModal from '../../components/ItemModal'
+import SearchBar from '../../components/SearchBar'
+import SortButton from '../../components/SortButton'
+import TagsDropdown from '../../components/TagsDropdown'
+import ExportImportModal from '../../components/ExportImportModal'
+import FlashcardModal from '../../components/FlashcardModal'
+import FlashcardButton from '../../components/FlashcardButton'
 
 // Hooks
-import { useCategories } from '../hooks/useCategories'
-import { useSidebar } from '../hooks/useSidebar'
-import { useItemModal } from '../hooks/useItemModal'
-import { useSearch } from '../hooks/useSearch'
-import { useFocusEffect } from '@react-navigation/native'
-import { useCallback } from 'react'
+import { useCategories } from '../../hooks/useCategories'
+import { useSidebar } from '../../hooks/useSidebar'
+import { useItemModal } from '../../hooks/useItemModal'
+import { useSearch } from '../../hooks/useSearch'
 
 // Utils
-import { exportData, processImportData, validateImportData } from '../utils/dataManager'
+import { exportData, processImportData, validateImportData } from '../../utils/dataManager'
 
 const Notes = () => {
   // Custom hooks
@@ -80,14 +78,6 @@ const Notes = () => {
   const [exportImportModalVisible, setExportImportModalVisible] = useState(false)
   const [flashcardModalVisible, setFlashcardModalVisible] = useState(false)
 
-  // Open sidebar when Notes tab is focused
-  useFocusEffect(
-    useCallback(() => {
-      if (!sidebarOpen) {
-        toggleSidebar()
-      }
-    }, [])
-  )
   // Handlers
   const handleAddCategory = () => {
     addCategory(newCategoryName)
@@ -205,6 +195,13 @@ const Notes = () => {
         />
       </View>
 
+      <TouchableOpacity
+        style={styles.menuButton}
+        onPress={toggleSidebar}
+      >
+        <Ionicons name="menu" size={24} color="#4CAF50" />
+      </TouchableOpacity>
+
       <Sidebar
         slideAnim={slideAnim}
         onClose={closeSidebar}
@@ -215,8 +212,8 @@ const Notes = () => {
         onSelectCategory={handleSelectCategory}
         onDeleteCategory={deleteCategory}
         onExportImportPress={() => setExportImportModalVisible(true)}
-        selectedCategory={selectedCategory}       // add this
-        handleSortChange={handleSortChange}       // add this
+        selectedCategory={selectedCategory}
+        handleSortChange={handleSortChange}
       />
 
       <ItemModal
@@ -252,13 +249,14 @@ const Notes = () => {
 export default Notes
 
 const styles = StyleSheet.create({
-  container: { 
-    flex: 1, 
-    backgroundColor: "#fdfdfd" 
+  container: {
+    flex: 1,
+    backgroundColor: "#fdfdfd"
   },
-  body: { 
-    flex: 1, 
-    padding: 16 
+  body: {
+    flex: 1,
+    padding: 16,
+    paddingBottom: 80,
   },
   loadingContainer: {
     justifyContent: 'center',
@@ -281,5 +279,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 16,
     marginBottom: 8,
-  }
+  },
+  menuButton: {
+    position: 'absolute',
+    top: 16,
+    left: 16,
+    zIndex: 99,
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    padding: 8,
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
 })
