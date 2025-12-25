@@ -10,7 +10,7 @@
     "newArchEnabled": true,
     "splash": {
       "image": "./assets/maomao_icon-300.png",
-      "resizeMode": "native",
+      "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "ios": {
@@ -27,9 +27,6 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "statusBar": {
-        "hidden": true
-      },
       "package": "com.nagiiiqt.MaoMaoNotes"
     },
     "web": {
