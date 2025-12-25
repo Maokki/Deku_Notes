@@ -34,15 +34,6 @@ const ItemList = ({
 
   return (
     <>
-      <View style={styles.sectionHeader}>
-        <Text style={styles.categoryTitle}>
-          {selectedCategory?.name} {selectedTag && `(${selectedTag})`}
-        </Text>
-        <Text style={styles.itemCount}>
-          {filteredItems.length}つ
-        </Text>
-      </View>
-
       {filteredItems.length === 0 ? (
         <Text>No items</Text>
       ) : (
@@ -97,22 +88,6 @@ const ItemList = ({
 export default ItemList
 
 const styles = StyleSheet.create({
-sectionHeader: {
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "space-between",
-  paddingHorizontal: 16,
-  marginBottom: 8,
-  },
-  categoryTitle: {
-    fontSize: 25,   // bigger than before
-    fontWeight: "bold",
-    color: "#333",
-  },
-  itemCount: {
-    fontSize: 16,
-    color: "#666",
-  },
   itemBox: { 
     backgroundColor: "#f0f0f0", 
     padding: 10, 
