@@ -1,18 +1,13 @@
 {
   "expo": {
-    "scheme": "maomao-notes",
-    "name": "MaoMao-Notes",
+    "scheme": "deku-notes",
+    "name": "Deku-Notes",
     "slug": "MaoMao-Notes",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/maomao_icon-192.png",
+    "icon": "./assets/deku_note.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/maomao_icon-300.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
@@ -23,14 +18,14 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/maomao_icon-192.png",
+        "foregroundImage": "./assets/deku_note.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.nagiiiqt.MaoMaoNotes"
+      "package": "com.nagiiiqt.DekuNotes"
     },
     "web": {
-      "favicon": "./assets/maomao_icon-192.png"
+      "favicon": "./assets/deku_note.png"
     },
     "plugins": [
       "expo-router"
