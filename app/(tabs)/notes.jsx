@@ -36,6 +36,7 @@ const Notes = () => {
     categorySortOrder,
     setSelectedCategory,
     addCategory,
+    renameCategory, //added renameCategory prop
     deleteCategory,
     addItem,
     editItem,
@@ -254,6 +255,7 @@ const Notes = () => {
         onAddCategory={handleAddCategory}
         onSelectCategory={handleSelectCategory}
         onDeleteCategory={deleteCategory}
+        onRenameCategory={renameCategory} //added renameCategory prop
         onExportImportPress={() => setExportImportModalVisible(true)}
         selectedCategory={selectedCategory}
         handleSortChange={handleSortChange}

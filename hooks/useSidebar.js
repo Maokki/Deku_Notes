@@ -1,3 +1,4 @@
+//Sidebar.js from hooks
 import { useState, useRef } from 'react'
 import { Animated } from 'react-native'
 

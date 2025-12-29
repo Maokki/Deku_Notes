@@ -1,3 +1,4 @@
+//useCategories.js from hooks
 import { useState, useEffect } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { generateId } from '../utils/dataManager'
@@ -60,10 +61,32 @@ export const useCategories = () => {
     setCategories([newCategory, ...categories]); // prepend at top
   };
 
+  const renameCategory = (categoryId, newName) => {
+    if (newName.trim() === "") return;
+    
+    const updatedCategories = categories.map(cat => {
+      if (cat.id === categoryId) {
+        return {
+          ...cat,
+          name: newName.trim(),
+          updatedAt: new Date().toISOString()
+        }
+      }
+      return cat
+    })
+    
+    setCategories(updatedCategories)
+    
+    // Update selected category if it's the one being renamed
+    if (selectedCategory && selectedCategory.id === categoryId) {
+      const updatedSelected = updatedCategories.find(cat => cat.id === categoryId)
+      setSelectedCategory(updatedSelected)
+    }
+  }
 
   const deleteCategory = (id) => {
     setCategories(categories.filter(cat => cat.id !== id))
-    if (selectedCategory?.name === id) setSelectedCategory(null)
+    if (selectedCategory?.id === id) setSelectedCategory(null)
   }
 
   const addItem = (item) => {
@@ -187,6 +210,7 @@ export const useCategories = () => {
     isLoading,
     setSelectedCategory,
     addCategory,
+    renameCategory,
     deleteCategory,
     addItem,
     editItem,
