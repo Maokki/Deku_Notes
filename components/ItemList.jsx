@@ -2,7 +2,7 @@
 import { StyleSheet, Text, View, TouchableOpacity, FlatList, LayoutAnimation, Platform, UIManager } from 'react-native'
 import React from 'react'
 import { Ionicons } from '@expo/vector-icons'
-import { useState } from 'react'
+import { sortItems } from '../utils/sortUtils' // Add this import
 
 // Enable LayoutAnimation on Android
 if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental) {
@@ -27,10 +27,13 @@ const ItemList = ({
     return <Text>Select a category to view items.</Text>
   }
 
-  // 🔑 Filter items based on selectedTag
+  // Sort items based on category's sortOrder (with natural sort for alphabetical)
+  const sortedItems = sortItems(items, selectedCategory?.sortOrder || 'alphabetical');
+  
+  // Filter items based on selectedTag
   const filteredItems = selectedTag
-    ? items.filter(item => item.tags?.includes(selectedTag))
-    : items;
+    ? sortedItems.filter(item => item.tags?.includes(selectedTag))
+    : sortedItems;
 
   return (
     <>
