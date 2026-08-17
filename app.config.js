@@ -47,7 +47,7 @@ export default {
     web: {
       favicon: "./assets/deku_note.png",
     },
-    plugins: ["expo-router", "expo-sharing", "expo-font"],
+    plugins: ["expo-router", "expo-sharing", "expo-font","expo-status-bar" ],
     extra: {
       router: {},
       eas: {
