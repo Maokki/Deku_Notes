@@ -7,7 +7,6 @@
     "orientation": "portrait",
     "icon": "./assets/deku_note.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
@@ -21,14 +20,15 @@
         "foregroundImage": "./assets/deku_note.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true,
       "package": "com.nagiiiqt.DekuNotes"
     },
     "web": {
       "favicon": "./assets/deku_note.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "expo-sharing",
+      "expo-font"
     ],
     "extra": {
       "router": {},
