@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, Alert } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { useLocalSearchParams } from 'expo-router'
+import { useObserve } from 'expo-observe'
 
 import {
   Sidebar, AddItemButton, ItemList, ItemModal, SearchBar,
@@ -16,6 +17,7 @@ const Notes = () => {
   const navigation = useNavigation()
   const { category: categoryIdFromDashboard } = useLocalSearchParams()
   const { theme } = useThemeContext()
+  const { markInteractive } = useObserve()
 
   const {
     categories, selectedCategory, isLoading,
@@ -40,6 +42,11 @@ const Notes = () => {
 
   const { searchQuery, setSearchQuery, filteredAndSortedItems, clearSearch } =
     useSearch(selectedCategory, selectedTag)
+
+    
+  useEffect(() => {
+    if (!isLoading) markInteractive()
+  }, [isLoading, markInteractive])
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('tabPress', () => toggleSidebar())
