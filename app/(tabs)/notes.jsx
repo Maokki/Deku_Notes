@@ -1,8 +1,7 @@
 // app/(tabs)/notes.jsx
 import { StyleSheet, View, Text, Alert } from 'react-native'
 import React, { useState, useEffect } from 'react'
-import { useNavigation } from '@react-navigation/native'
-import { useLocalSearchParams } from 'expo-router'
+import { useNavigation, useLocalSearchParams } from 'expo-router'
 import { useObserve } from 'expo-observe'
 
 import {
