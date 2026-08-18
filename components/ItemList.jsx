@@ -10,6 +10,23 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
   UIManager.setLayoutAnimationEnabledExperimental(true)
 }
 
+const GuideStep = ({ icon, text, theme }) => (
+  <View style={styles.guideStep}>
+    <Ionicons name={icon} size={18} color={theme.primary} style={styles.guideIcon} />
+    <Text style={[styles.guideText, { color: theme.textSecondary }]}>{text}</Text>
+  </View>
+)
+
+const WelcomeGuide = ({ theme }) => (
+  <View style={[styles.guideCard, { backgroundColor: theme.surface, borderColor: theme.border }]}>
+    <Text style={[styles.guideTitle, { color: theme.textPrimary }]}>New here? 👋</Text>
+    <GuideStep theme={theme} icon="reader-outline" text="Tap the Notes tab again to open your categories." />
+    <GuideStep theme={theme} icon="add-circle-outline" text='Tap the "+" in the sidebar to create your first category.' />
+    <GuideStep theme={theme} icon="ellipsis-vertical" text="Tap the ⋮ next to a category to rename, favorite, or delete it." />
+    <GuideStep theme={theme} icon="document-text-outline" text='Select a category, then tap "+" to add your first item.' />
+  </View>
+)
+
 const TagChip = ({ tag, theme }) => (
   <View style={[styles.tagChip, { backgroundColor: theme.surface, borderColor: theme.secondary }]}>
     <Text style={[styles.tagText, { color: theme.secondary }]}>{tag}</Text>
@@ -77,7 +94,7 @@ const ItemList = ({ items, selectedCategory, expandedIndex, setExpandedIndex, on
   }
 
   if (!selectedCategory) {
-    return <Text style={[styles.hint, { color: theme.textSecondary }]}>Tap the Notes tab again to view categories.</Text>
+    return <WelcomeGuide theme={theme} />
   }
 
   if (items.length === 0) {
@@ -123,4 +140,31 @@ const styles = StyleSheet.create({
   },
   editBtn: { padding: 6, borderRadius: 6 },
   deleteBtn: { padding: 6, borderRadius: 6 },
+  guideCard: {
+    marginTop: 24,
+    marginHorizontal: 8,
+    padding: 16,
+    borderRadius: 10,
+    borderWidth: 1,
+  },
+  guideTitle: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    marginBottom: 12,
+    textAlign: 'center',
+  },
+  guideStep: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 10,
+    marginBottom: 10,
+  },
+  guideIcon: {
+    marginTop: 2,
+  },
+  guideText: {
+    flex: 1,
+    fontSize: 14,
+    lineHeight: 20,
+  },
 })
