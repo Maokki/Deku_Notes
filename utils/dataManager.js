@@ -3,6 +3,8 @@ import { Alert } from 'react-native'
 import * as FileSystem from 'expo-file-system/legacy'
 import * as Sharing from 'expo-sharing'
 
+import { Observe } from 'expo-observe'
+
 export const generateId = () =>
   Date.now().toString(36) + Math.random().toString(36).substring(2, 7)
 
@@ -26,6 +28,7 @@ export const exportData = async (categories) => {
     const fileUri = FileSystem.documentDirectory + fileName
 
     await FileSystem.writeAsStringAsync(fileUri, jsonString)
+    Observe.logEvent('backup_created', { categoryCount: categories.length })
 
     const isAvailable = await Sharing.isAvailableAsync()
     if (isAvailable) {
