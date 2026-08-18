@@ -46,7 +46,6 @@ export const useItemModal = () => {
 
   const pickImage = async () => {
     console.log('pickImage called')
-    Observe.logEvent('photo_added', { source: 'gallery', count: permanentUris.length })
     try {
       // Request permission
       const permission = await ImagePicker.requestMediaLibraryPermissionsAsync()
@@ -73,6 +72,8 @@ export const useItemModal = () => {
         assets.map((asset) => saveImagePermanently(asset.uri))
       )
 
+      Observe.logEvent('photo_added', { source: 'gallery', count: permanentUris.length })
+
       setForm((prev) => {
         const combined = [...prev.images, ...permanentUris]
         return { ...prev, images: combined.slice(0, 5) }
@@ -83,7 +84,7 @@ export const useItemModal = () => {
       alert('Something went wrong while picking images. Please try again.')
     }
   }
-
+  
   const pickFromCamera = async () => {
     Observe.logEvent('photo_added', { source: 'camera' })
     try {
