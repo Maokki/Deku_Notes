@@ -77,7 +77,7 @@ const ItemList = ({ items, selectedCategory, expandedIndex, setExpandedIndex, on
   }
 
   if (!selectedCategory) {
-    return <Text style={[styles.hint, { color: theme.textSecondary }]}>Select a category to view items.</Text>
+    return <Text style={[styles.hint, { color: theme.textSecondary }]}>Tap the Notes tab again to view categories.</Text>
   }
 
   if (items.length === 0) {
