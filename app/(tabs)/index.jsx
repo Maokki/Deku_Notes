@@ -5,18 +5,25 @@ import { Ionicons } from '@expo/vector-icons'
 import { StatisticsCard, ItemOfTheDay, CategoryPreview } from '../../components'
 import { useCategories, useDashboardStats } from '../../hooks'
 import { useThemeContext } from '../../context'
+import { useEffect } from 'react'
+import { useObserve } from 'expo-observe'
 
 const Dashboard = () => {
   const [refreshing, setRefreshing] = useState(false)
   const { categories, isLoading } = useCategories()
   const { totalItems, totalCategories, refreshStats } = useDashboardStats(categories)
   const { theme } = useThemeContext()
+  const { markInteractive } = useObserve()
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true)
     await refreshStats()
     setRefreshing(false)
   }, [refreshStats])
+
+    useEffect(() => {
+      if (!isLoading) markInteractive()
+    }, [isLoading, markInteractive])
 
   if (isLoading) {
     return (

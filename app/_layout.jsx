@@ -2,6 +2,11 @@
 import { Stack } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { ThemeProvider, useThemeContext } from '../context'
+import { Observe, ObserveRoot } from 'expo-observe'
+
+Observe.configure({
+  integrations: { 'expo-router': true },
+})
 
 function AppContent() {
   const { isDark } = useThemeContext()
@@ -16,10 +21,12 @@ function AppContent() {
   )
 }
 
-export default function RootLayout() {
+function RootLayout() {
   return (
     <ThemeProvider>
       <AppContent />
     </ThemeProvider>
   )
 }
+
+export default ObserveRoot.wrap(RootLayout)

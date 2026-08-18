@@ -13,3 +13,5 @@ export { default as TagsDropdown } from './TagsDropdown'
 export { default as StatisticsCard } from './dashboard/StatisticsCard'
 export { default as ItemOfTheDay } from './dashboard/ItemOfTheDay'
 export { default as CategoryPreview } from './dashboard/CategoryPreview'
+
+export { default as UpdateBanner } from './UpdateBanner'

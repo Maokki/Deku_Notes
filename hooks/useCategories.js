@@ -4,6 +4,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { generateId } from '../utils/dataManager'
 import { STORAGE_KEY } from '../constants'
 
+import { Observe } from 'expo-observe'
+
 export const useCategories = () => {
   const [categories, setCategories] = useState([])
   const [selectedCategory, setSelectedCategory] = useState(null)
@@ -55,6 +57,7 @@ export const useCategories = () => {
 
   const addCategory = (name) => {
     if (!name.trim()) return
+    Observe.logEvent('category_added')
     setCategories((prev) => [
       {
         id: generateId(),
@@ -70,7 +73,9 @@ export const useCategories = () => {
   }
 
   const renameCategory = (categoryId, newName) => {
+  
     if (!newName.trim()) return
+    Observe.logEvent('category_renamed')
     updateCategories(
       categories.map((cat) =>
         cat.id === categoryId ? { ...cat, name: newName.trim(), updatedAt: now() } : cat
@@ -92,9 +97,12 @@ export const useCategories = () => {
   }
 
   const toggleFavorite = (categoryId) => {
+    const category = categories.find((c) => c.id === categoryId)
+    const isFavorite = !category?.favorite
+    Observe.logEvent('category_favorite_toggled', { isFavorite })
     updateCategories(
       categories.map((cat) =>
-        cat.id === categoryId ? { ...cat, favorite: !cat.favorite, updatedAt: now() } : cat
+        cat.id === categoryId ? { ...cat, favorite: isFavorite, updatedAt: now() } : cat
       )
     )
   }
@@ -104,6 +112,7 @@ export const useCategories = () => {
   const addItem = (item) => {
     if (!selectedCategory || !item.name.trim()) return
     const newItem = { ...item, id: generateId(), images: item.images || [], createdAt: now(), updatedAt: now() }
+    Observe.logEvent('item_added', { hasImages: newItem.images.length > 0 })
     updateCategories(
       categories.map((cat) =>
         cat.id === selectedCategory.id

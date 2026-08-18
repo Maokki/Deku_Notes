@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Animated, Alert, ScrollView, Modal, KeyboardAvoidingView, Platform, Switch } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Ionicons } from '@expo/vector-icons'
 import { useThemeContext } from '../context'
 
@@ -21,6 +21,10 @@ const Sidebar = ({
   const [renameCategoryValue, setRenameCategoryValue] = useState('')
   const { isDark, toggleTheme, theme } = useThemeContext()
 
+  const [isAddingCategory, setIsAddingCategory] = useState(false)
+  const [categorySearchQuery, setCategorySearchQuery] = useState('')
+  const categoryInputRef = useRef(null)
+
   // Sidebar has its own surface colors since it overlays the screen
   const sb = {
     bg:           isDark ? '#1a1a1a' : '#2c2c2c',
@@ -34,6 +38,33 @@ const Sidebar = ({
     modalBg:      isDark ? '#1e1e1e' : '#3a3a3a',
     cancelBtn:    isDark ? '#3a3a3a' : '#666666',
   }
+
+  useEffect(() => {
+    if (isAddingCategory) categoryInputRef.current?.focus()
+  }, [isAddingCategory])
+
+  const handleStartAdd = () => {
+    setNewCategoryName('')
+    setIsAddingCategory(true)
+  }
+
+  const handleConfirmAdd = () => {
+    if (!newCategoryName.trim()) return
+    onAddCategory()
+    setIsAddingCategory(false)
+  }
+
+  const handleInputBlur = () => {
+    if (isAddingCategory && !newCategoryName.trim()) {
+      setIsAddingCategory(false)
+    }
+  }
+
+  const visibleCategories = isAddingCategory
+    ? categories
+    : categories.filter((cat) =>
+        cat.name.toLowerCase().includes(categorySearchQuery.trim().toLowerCase())
+      )
 
   const handleRenamePress = (category) => {
     setCategoryToRename(category)
@@ -91,27 +122,33 @@ const Sidebar = ({
         {/* Add Category */}
         <View style={styles.addCategoryRow}>
           <TextInput
-            value={newCategoryName}
-            onChangeText={setNewCategoryName}
-            placeholder="New Category"
+            ref={categoryInputRef}
+            value={isAddingCategory ? newCategoryName : categorySearchQuery}
+            onChangeText={isAddingCategory ? setNewCategoryName : setCategorySearchQuery}
+            onBlur={handleInputBlur}
+            onSubmitEditing={isAddingCategory ? handleConfirmAdd : undefined}
+            placeholder={isAddingCategory ? 'New category name' : 'Search categories'}
             placeholderTextColor={sb.textMuted}
             style={[styles.categoryInput, { backgroundColor: sb.inputBg, borderColor: sb.inputBorder, color: sb.text }]}
           />
-          <TouchableOpacity style={[styles.addCategoryBtn, {backgroundColor: theme.primary}]} onPress={onAddCategory}>
-            <Ionicons name="add" size={22} color="#fff" />
+          <TouchableOpacity
+            style={[styles.addCategoryBtn, { backgroundColor: theme.primary }]}
+            onPress={isAddingCategory ? handleConfirmAdd : handleStartAdd}
+          >
+            <Ionicons name={isAddingCategory ? 'checkmark' : 'add'} size={22} color="#fff" />
           </TouchableOpacity>
         </View>
 
         {/* Category list */}
         <View style={styles.categories}>
-          {[...categories]
+          {[...visibleCategories]
             .sort((a, b) => {
               if (!!a.favorite !== !!b.favorite) return a.favorite ? -1 : 1
               return a.name.localeCompare(b.name)
             })
             .map((cat, index) => {
               const isMenuOpen = menuVisible === cat.id
-              const isLastTwo = index >= categories.length - 2
+              const isLastTwo = index >= visibleCategories.length - 2
 
               return (
                 <View
@@ -179,6 +216,12 @@ const Sidebar = ({
                 </View>
               )
             })}
+
+            {visibleCategories.length === 0 && (
+              <Text style={[styles.emptyText, { color: sb.textMuted }]}>
+                No categories found
+              </Text>
+            )}
         </View>
       </ScrollView>
 
@@ -289,6 +332,12 @@ const styles = StyleSheet.create({
   categoryItem: {
     fontSize: 16,
     paddingVertical: 8,
+  },
+  emptyText: {
+    textAlign: 'center',
+    fontSize: 14,
+    marginTop: 20,
+    fontStyle: 'italic',
   },
   menuButton: {
     padding: 8,

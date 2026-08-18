@@ -2,6 +2,8 @@ import { useState } from 'react'
 import * as ImagePicker from 'expo-image-picker'
 import * as FileSystem from 'expo-file-system/legacy'
 
+import { Observe } from 'expo-observe'
+
 const EMPTY_FORM = { itemName: '', itemTags: '', itemDesc: '', images: [] } //added new field for images
 
 export const useItemModal = () => {
@@ -44,6 +46,7 @@ export const useItemModal = () => {
 
   const pickImage = async () => {
     console.log('pickImage called')
+    Observe.logEvent('photo_added', { source: 'gallery', count: permanentUris.length })
     try {
       // Request permission
       const permission = await ImagePicker.requestMediaLibraryPermissionsAsync()
@@ -82,6 +85,7 @@ export const useItemModal = () => {
   }
 
   const pickFromCamera = async () => {
+    Observe.logEvent('photo_added', { source: 'camera' })
     try {
       const permission = await ImagePicker.requestCameraPermissionsAsync()
       if (!permission.granted) {
